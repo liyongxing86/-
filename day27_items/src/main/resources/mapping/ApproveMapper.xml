@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.lyx.mapper.ApproveMapper">
+    <resultMap id="approveMap" type="com.qf.lyx.pojo.Approve">
+      <id property="id" column="ID"/>
+      <result property="account" column="ACCOUNT"/>
+      <result property="name" column="NAME"/>
+      <result property="ID_card" column="ID_CARD"/>
+      <result property="phone_code" column="PHONE_CODE"/>
+      <result property="ID_photo" column="ID_PHOTO"/>
+      <result property="email" column="EMAIL"/>
+      <result property="rate" column="RATE"/>
+      <result property="audit" column="AUDIT"/>
+    </resultMap>
+
+    <insert id="addApprove" parameterType="com.qf.lyx.pojo.Approve">
+        INSERT INTO approve(ACCOUNT,NAME,ID_CARD,PHONE_CODE,ID_PHOTO,EMAIL,RATE,AUDIT) VALUES (#{account},#{name},#{ID_card},#{phone_code},#{ID_photo},#{email},#{rate},#{audit})
+    </insert>
+
+    <select id="findAll" resultMap="approveMap">
+        SELECT * FROM approve
+    </select>
+
+    <select id="findApproveById" parameterType="int" resultType="com.qf.lyx.pojo.Approve">
+        SELECT * FROM approve WHERE ID=#{id}
+    </select>
+
+    <update id="upApproveById" parameterType="com.qf.lyx.pojo.Approve">
+        UPDATE approve SET AUDIT=#{audit} WHERE ID=#{id}
+    </update>
+
+    <select id="findAppByAccount" parameterType="string" resultType="com.qf.lyx.pojo.Approve">
+        SELECT * FROM approve WHERE ACCOUNT=#{account}
+    </select>
+
+    <delete id="deleteApprove" parameterType="int">
+        DELETE FROM approve WHERE ID=#{id}
+    </delete>
+</mapper>

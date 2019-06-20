@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--加载数据库文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--配置druid数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置sqlSessionFactroy-->
+    <bean id="sqlSessionFactroy" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--映射文件的存储位置-->
+        <property name="mapperLocations" value="classpath:mapping/*.xml"/>
+        <!--配置实体类的加载路径-->
+        <property name="typeAliasesPackage" value="com.qf.lyx.pojo"/>
+    </bean>
+    <!--配置mybatis接口扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactroy"/>
+        <!--注入会话工厂-->
+        <property name="basePackage" value="com.qf.lyx.mapper"/>
+
+    </bean>
+</beans>
